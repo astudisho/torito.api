@@ -10,7 +10,7 @@ namespace TwitterClient.Utils
     {
         public class GMaps
         {
-            public static string GMapsApiKey = "";            
+            public static string GMapsApiKey = "AAAAAAAAAAAAAAAAAAAAAOhyKAEAAAAAOAIZJbtgp3aRyeaArNFQxBpWALM%3DQdIrHBC1HuqXY1o16Y8nRGWAFPdAFhSSJ5ogaG1QMVf2yZKGPu";            
         }
 
         
