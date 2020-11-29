@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using RestSharp.Authenticators;
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Torito.Models.Twitter;
 
@@ -8,7 +9,7 @@ namespace TwitterClient
 {
     public class TwitterBaseClient
     {
-        private RestClient _client;
+        protected RestClient _client;
         private string _baseUrl => "https://api.twitter.com/";
 
         public TwitterBaseClient(string apiKey)
@@ -16,15 +17,24 @@ namespace TwitterClient
             _client = new RestClient(_baseUrl);
 
             _client.AddDefaultHeader("Authorization", $"Bearer {apiKey}");
-        }
+        }        
 
-        public async Task<RecentSearchResponse> GetRecentSearchAsync(string query)
+        protected virtual void AddQueryParameters(IRequestParameters requestParameters)
         {
-            var request = new RestRequest("/2/tweets/search/recent", DataFormat.Json);
-            request.AddQueryParameter("query", query);
-            var response = await _client.GetAsync<RecentSearchResponse>(request);
+            var properties = requestParameters.GetType().GetProperties();
 
-            return response;
+            foreach (var property in properties)
+            {
+                var value = property.GetValue(requestParameters);
+
+                if (value == null) continue;
+
+                var description = Attribute.IsDefined(property, typeof(DescriptionAttribute)) ?
+                    (Attribute.GetCustomAttribute(property, typeof(DescriptionAttribute)) as DescriptionAttribute).Description :
+                    property.Name;
+
+                _client.AddDefaultQueryParameter(description, value.ToString());
+            }
         }
     }
 }

@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClient", "TwitterCli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClient.Tests", "TwitterClient\TwitterClient.Tests\TwitterClient.Tests.csproj", "{D83E55C3-90D0-4463-BF8B-DFFB93807E83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Torito.Models", "Torito.Models\Torito.Models.csproj", "{A7D066CA-B6C3-4033-B809-5422032DF8EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Torito.Models", "Torito.Models\Torito.Models.csproj", "{A7D066CA-B6C3-4033-B809-5422032DF8EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Twitter.Models", "Twitter.Models", "{BCC9AF97-3923-4768-9ABC-16792E1FE4F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
