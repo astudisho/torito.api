@@ -8,7 +8,7 @@ namespace Torito.Models.Twitter
 {
     public class RecentSearchResponse
     {
-        public IEnumerable<Twit> Data { get; set; }
+        public IEnumerable<Tweet> Data { get; set; }
         public MetaData Meta { get; set; }   
     }
 

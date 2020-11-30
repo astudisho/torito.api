@@ -17,22 +17,22 @@ namespace Torito.Models.Twitter
         public long? SinceId { get; set; }
         [Description("until_id")]
         public long? UntilId { get; set; }
-        [Description("max-results")]
+        [Description("max_results")]
         [Range(10, 100)]
         public int MaxResults { get; set; } = 10;
         [Description("next_token")]
         public string NextToken { get; set; }
         [Description("tweet.fields")]
-        public IEnumerable<TweetFields> TweetFields { get; set; }
+        public IEnumerable<string> TweetFields { get; set; }
         [Description("media.fields")]
-        public IEnumerable<MediaFields> MediaFields { get; set; }
+        public IEnumerable<string> MediaFields { get; set; }
         [Description("place.fields")]
-        public IEnumerable<PlaceFields> PlaceFields { get; set; }
+        public IEnumerable<string> PlaceFields { get; set; }
         [Description("poll.fields")]
-        public IEnumerable<PollFields> PollFields { get; set; }
+        public IEnumerable<string> PollFields { get; set; }
         [Description("user.fields")]
-        public IEnumerable<UserFields> UserFields { get; set; }
+        public IEnumerable<string> UserFields { get; set; }
         [Description("expansions")]
-        public IEnumerable<Expansions> Expansions { get; set; }
+        public IList<string> Expansions { get; set; }
     }
 }

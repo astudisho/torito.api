@@ -10,7 +10,7 @@ using TwitterClient.Interfaces;
 namespace TwitterClient.Implementations
 {
     public class RecentSearchService : TwitterBaseClient, IRecentSearchService
-    {        
+    {
         public RecentSearchService(string apiKey) : base(apiKey)
         {
             
@@ -18,12 +18,13 @@ namespace TwitterClient.Implementations
 
         public async Task<RecentSearchResponse> GetRecentSearchAsync(string query, RecentSearchRequestParameters parameters)
         {
-            var request = new RestRequest("/2/tweets/search/recent", DataFormat.Json);
-            request.AddQueryParameter("query", query);
+            
+            _restRequest = new RestRequest("/2/tweets/search/recent", DataFormat.Json);
+            _restRequest.AddQueryParameter("query", query);
 
-            //AddQueryParameters(parameters);
+            AddQueryParameters(parameters);
 
-            var response = await _client.GetAsync<RecentSearchResponse>(request);
+            var response = await _client.GetAsync<RecentSearchResponse>(_restRequest);
 
             return response;
         }        
