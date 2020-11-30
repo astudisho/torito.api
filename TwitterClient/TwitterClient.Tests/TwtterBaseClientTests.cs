@@ -12,22 +12,14 @@ namespace TwitterClient.Tests
         private string _apikey;
         public TwtterBaseClientTests()
         {
-            var config = new ConfigurationBuilder()
-                .AddUserSecrets("448180e3-246a-4987-ad61-016e753ee973")
-                .Build();
-
-            var secretProvider = config.Providers.First();
-            secretProvider.TryGet("Twitter:apikey", out _apikey);
+            
         }
         [Fact]
-        public async Task Test1()
+        public async Task Should_Initialize_Client()
         {
-            var client = new TwitterBaseClient(_apikey);
+            var client = new TwitterBaseClient(_apikey);            
 
-            var response = await client.GetRecentSearchAsync("from:damplin #toritojalisco");
-
-            Assert.NotNull(response);
-            Assert.NotEmpty(response.Data);
+            Assert.NotNull(client);
         }
     }
 }

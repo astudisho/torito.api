@@ -1,14 +1,22 @@
 ﻿using RestSharp;
 using RestSharp.Authenticators;
 using System;
+using System.Collections;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Torito.Models.Twitter;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text;
+using static Torito.Models.Twitter.Enums.RecentSearchEnums;
 
 namespace TwitterClient
 {
     public class TwitterBaseClient
     {
-        private RestClient _client;
+        protected RestClient _client;
+        protected IRestRequest _restRequest;
+        
         private string _baseUrl => "https://api.twitter.com/";
 
         public TwitterBaseClient(string apiKey)
@@ -16,15 +24,49 @@ namespace TwitterClient
             _client = new RestClient(_baseUrl);
 
             _client.AddDefaultHeader("Authorization", $"Bearer {apiKey}");
-        }
+        }        
 
-        public async Task<RecentSearchResponse> GetRecentSearchAsync(string query)
+        protected virtual void AddQueryParameters(IRequestParameters requestParameters)
         {
-            var request = new RestRequest("/2/tweets/search/recent", DataFormat.Json);
-            request.AddQueryParameter("query", query);
-            var response = await _client.GetAsync<RecentSearchResponse>(request);
+            var properties = requestParameters.GetType().GetProperties();
 
-            return response;
+            foreach (var property in properties) 
+            {
+                 var value = property.GetValue(requestParameters);
+
+                // If propery is null, continue with next.
+                if (value == null)  continue;
+
+                // If property is not null, continue with logic.
+
+                var description = Attribute.IsDefined(property, typeof(DescriptionAttribute)) ?
+                    (Attribute.GetCustomAttribute(property, typeof(DescriptionAttribute)) as DescriptionAttribute).Description :
+                    property.Name;
+
+                var isEnumerableNonString = typeof(IEnumerable).IsAssignableFrom(property.PropertyType) 
+                                            && property.PropertyType != typeof(string);
+
+                string parameter;
+                // If is enumerable, convert to list of strings
+                if (isEnumerableNonString)
+                {
+                    var type = property.PropertyType;
+                    var attributes = type.CustomAttributes;
+
+                    var enumerable = value as List<string>;
+
+                    parameter = value.ToString();
+
+                    parameter = enumerable.Aggregate((x, y) => $"{x.ToString()},{y.ToString()}");
+                }
+                // Else convert to string
+                else
+                {
+                    parameter = value.ToString();
+                }
+
+                _restRequest.AddQueryParameter(description, parameter);
+            }
         }
     }
 }
