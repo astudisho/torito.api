@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -20,11 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TwitterClient\TwitterClient.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utils\" />
+    <ProjectReference Include="..\Torito.Data\Torito.Data.csproj" />
+    <ProjectReference Include="..\Torito.Models\Torito.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,7 +15,7 @@ namespace TwitterClient.Tests
             
         }
         [Fact]
-        public async Task Should_Initialize_Client()
+        public void Should_Initialize_Client()
         {
             var client = new TwitterBaseClient(_apikey);            
 

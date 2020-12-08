@@ -5,13 +5,6 @@ using System.Text;
 
 namespace Torito.Models.Twitter
 {
-    //public class Twit
-    //{
-    //    public long? Id { get; set; }
-    //    public string Text { get; private set; }
-    //    public long? AuthorId { get; set; }
-    //}
-
     public class Annotation
     {
         [DeserializeAs(Name = "start")]
@@ -90,7 +83,7 @@ namespace Torito.Models.Twitter
         public string Text { get; set; }
 
         [DeserializeAs(Name = "id")]
-        public string Id { get; set; }
+        public ulong Id { get; set; }
 
         [DeserializeAs(Name = "entities")]
         public Entities Entities { get; set; }

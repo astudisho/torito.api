@@ -8,7 +8,6 @@ using Torito.Models.Twitter;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using static Torito.Models.Twitter.Enums.RecentSearchEnums;
 
 namespace TwitterClient
 {

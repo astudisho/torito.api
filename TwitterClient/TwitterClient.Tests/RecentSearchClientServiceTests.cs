@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Torito.Models.Twitter;
+using Torito.Models.Utils.Tools;
 using TwitterClient.Implementations;
 using TwitterClient.Interfaces;
-using TwitterClient.Tests.Utils;
 using Xunit;
 using static Torito.Models.Utils.Constants.Twitter.QueryParameters.RecentSearch;
 

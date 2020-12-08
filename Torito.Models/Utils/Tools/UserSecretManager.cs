@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TwitterClient.Tests.Utils
+namespace Torito.Models.Utils.Tools
 {
     public class UserSecretManager
     {
@@ -22,6 +22,12 @@ namespace TwitterClient.Tests.Utils
         public string GetTwitterApiKey()
         {
             _secretProvider.TryGet("Twitter:apikey", out var apikey);
+            return apikey;
+        }
+
+        public string GetDataConnectionStringApiKey(string env = "dev")
+        {
+            _secretProvider.TryGet($"Data:ConnectionString:{env}", out var apikey);
             return apikey;
         }
     }
