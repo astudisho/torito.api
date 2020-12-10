@@ -11,7 +11,7 @@ using System.Text;
 
 namespace TwitterClient
 {
-    public class TwitterBaseClient
+    public abstract class TwitterBaseClient
     {
         protected RestClient _client;
         protected IRestRequest _restRequest;

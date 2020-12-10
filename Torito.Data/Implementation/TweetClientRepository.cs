@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Torito.Data.Interfaces;
 using Torito.Models.Twitter;
 using TwitterClient.Interfaces;
+using TwitterClient.Utils;
 using static Torito.Models.Utils.Constants.Twitter.QueryParameters.RecentSearch;
 
 namespace Torito.Data.Implementation
@@ -20,7 +21,7 @@ namespace Torito.Data.Implementation
 
         public async Task<IList<Tweet>> GetLast100ToritoTweets()
         {
-            var toritoQUery = "from:damplin #toritojalisco";
+            var toritoQUery = Constants.Twitter.ToritoQuery;
 
             var request = new RecentSearchRequestParameters
             {

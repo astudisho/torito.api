@@ -30,5 +30,11 @@ namespace Torito.Models.Utils.Tools
             _secretProvider.TryGet($"Data:ConnectionString:{env}", out var apikey);
             return apikey;
         }
+
+        public string GetGmapsGeocodeApiKey()
+        {
+            _secretProvider.TryGet($"Gmaps:Geocode:Apikey", out var apikey);
+            return apikey;
+        }
     }
 }

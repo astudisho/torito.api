@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace TwitterClient.Utils
 {
-    public class Constants
+    public static class Constants
     {
-        public class GMaps
+        public static class GMaps
         {
         }        
+
+        public static class Twitter
+        {
+            public static readonly string ToritoQuery = "from:damplin(#Toritojalisco OR #AlcoholimetroGDL OR #ToritoGDL OR #AntiToritoGDL OR #CurvaGDL)";
+        }
     }
 }

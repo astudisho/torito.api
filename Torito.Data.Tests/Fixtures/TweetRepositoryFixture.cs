@@ -25,6 +25,8 @@ namespace Torito.Data.Tests.Fixtures
         internal IRecentSearchService recentSearchService;
         internal IMapper mapper;
         internal ICachedTweetService cachedtweetService;
+        internal Task<IList<Models.Twitter.Tweet>> cachedLast100TweetsTask;
+
         public TweetRepositoryFixture()
         {
             // Secrets.
@@ -45,7 +47,10 @@ namespace Torito.Data.Tests.Fixtures
             var isCreated = toritoContext.Database.EnsureCreated();
             tweetDbRepository = new TweetDbRepository(toritoContext);
             tweetClientRepository = new TweetClientRepository(recentSearchService);
-            cachedtweetService = new CachedTweetService(tweetClientRepository, tweetDbRepository, this.mapper);            
+            cachedtweetService = new CachedTweetService(tweetClientRepository, tweetDbRepository, this.mapper);
+
+            // Cached task.
+            cachedLast100TweetsTask = cachedtweetService.GetLast100Tweets();
         }
         public void Dispose()
         {

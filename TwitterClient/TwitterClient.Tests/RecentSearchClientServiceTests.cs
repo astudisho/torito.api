@@ -7,6 +7,7 @@ using Torito.Models.Twitter;
 using Torito.Models.Utils.Tools;
 using TwitterClient.Implementations;
 using TwitterClient.Interfaces;
+using TwitterClient.Utils;
 using Xunit;
 using static Torito.Models.Utils.Constants.Twitter.QueryParameters.RecentSearch;
 
@@ -27,7 +28,7 @@ namespace TwitterClient.Tests
         [Fact]
         public async Task Should_Retrieve_Twits()
         {
-            var query = "from:damplin #toritojalisco";
+            var query = Constants.Twitter.ToritoQuery;
             var recentSearchRequestParameters = new RecentSearchRequestParameters
             {
                 Expansions = new List<string> { Expansions.AuthorId, Expansions.GeoPlaceId },
@@ -41,6 +42,30 @@ namespace TwitterClient.Tests
 
             Assert.NotNull(response.Data);
             Assert.NotEmpty(response.Data);
+            Assert.NotEqual(default(int), response.Meta.Count);
+        }
+
+        [Fact]
+        public async Task Should_Retrieve_Tweets_With_Valid_Properties()
+        {
+            var query = Constants.Twitter.ToritoQuery;
+            var recentSearchRequestParameters = new RecentSearchRequestParameters
+            {
+                Expansions = new List<string> { Expansions.AuthorId, Expansions.GeoPlaceId },
+                TweetFields = new List<string>
+                {
+                    TweetFields.AuthorId, TweetFields.CreatedAt, TweetFields.Text, TweetFields.Id, TweetFields.Geo, TweetFields.ContextAnnotations,
+                    TweetFields.Entities
+                }
+            };
+            var response = await _recentSearchService.GetRecentSearchAsync(query, recentSearchRequestParameters);
+
+            var firstTweet = response.Data.First();
+
+            Assert.NotEqual(default, firstTweet.AuthorId);
+            Assert.NotEmpty(firstTweet.Entities?.Annotations);
+            Assert.NotEqual(default, firstTweet.Id);
+            Assert.False(string.IsNullOrEmpty(firstTweet.Text));
             Assert.NotEqual(default(int), response.Meta.Count);
         }
     }
