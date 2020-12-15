@@ -25,7 +25,7 @@ namespace Torito.Data.Implementation
         public async Task<IList<Tweet>> GetLast100Tweets()
         {
             // Create tasks.
-            var dbTweetsTask = _tweetDbRepository.GetAll();
+            var dbTweetsTask = _tweetDbRepository.GetLast100ToritoTweets();
             var clientTweetsTask = _tweetClientRepository.GetLast100ToritoTweets();
 
             // Results.

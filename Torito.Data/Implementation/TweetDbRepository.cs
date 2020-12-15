@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Torito.Data.Interfaces;
@@ -37,15 +38,16 @@ namespace Torito.Data.Implementation
             return result;
         }
 
-        //public async Task<IList<TweetDbo>> GetLast100ToritoTweets(CancellationToken cancellationToken = default)
-        //{
-        //    var result = await _toritoContext.Tweets                
-        //        .Include(x => x.Entities)
-        //        .ThenInclude(x => x.Annotations)               
-        //        .Include(x => x.Entities.Hashtags)
-        //        .ToListAsync(cancellationToken);
+        public async Task<IList<TweetDbo>> GetLast100ToritoTweets(CancellationToken cancellationToken = default)
+        {
+            var result = _toritoContext.Tweets
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(100)
+                .Include(x => x.Entities)
+                .ThenInclude(x => x.Annotations)
+                .Include(x => x.Entities.Hashtags);
 
-        //    return result;
-        //}
+            return await result.ToListAsync(cancellationToken);
+        }
     }
 }
