@@ -50,7 +50,7 @@ namespace Torito.Data.Tests.Fixtures
             cachedtweetService = new CachedTweetService(tweetClientRepository, tweetDbRepository, this.mapper);
 
             // Cached task.
-            cachedLast100TweetsTask = cachedtweetService.GetLast100Tweets();
+            cachedLast100TweetsTask = cachedtweetService.FetchAndUpdateLast100Tweets();
         }
         public void Dispose()
         {

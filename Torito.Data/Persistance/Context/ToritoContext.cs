@@ -33,12 +33,12 @@ namespace Torito.Data.Persistance.Context
             modelBuilder.Entity<TweetDbo>()
                 .Property(t => t.LastUpdated)
                 .ValueGeneratedOnAddOrUpdate()
-                .HasDefaultValue(DateTime.Now);
+                .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<TweetDbo>()
                 .Property(t => t.InsertedAt)
                 .ValueGeneratedOnAdd()
-                .HasDefaultValue(DateTime.Now);
+                .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<AddressComponentDbo>()
                 .Property(x => x.Types)

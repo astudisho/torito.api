@@ -21,18 +21,25 @@ namespace Torito.Data.Implementation
 
         public async Task<IList<Tweet>> GetLast100ToritoTweets()
         {
+            var result = await GetTopToritoTweets(100);
+
+            return result;
+        }
+
+        public async Task<IList<Tweet>> GetTopToritoTweets(int count)
+        {
             var toritoQUery = Constants.Twitter.ToritoQuery;
 
             var request = new RecentSearchRequestParameters
             {
-                MaxResults = 100,
+                MaxResults = count,
                 Expansions = new List<string> { Expansions.AuthorId, Expansions.GeoPlaceId },
                 TweetFields = new List<string>
                 {
                     TweetFields.AuthorId, TweetFields.CreatedAt, TweetFields.Text, TweetFields.Id, TweetFields.Geo, TweetFields.ContextAnnotations,
                     TweetFields.Entities
                 }
-                
+
             };
 
             var response = await _recentSearchService.GetRecentSearchAsync(toritoQUery, request);

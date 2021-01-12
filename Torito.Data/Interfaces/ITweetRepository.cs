@@ -9,5 +9,6 @@ namespace Torito.Data.Interfaces
     public interface ITweetRepository
     {
         Task<IList<Tweet>> GetLast100ToritoTweets();
+        Task<IList<Tweet>> GetTopToritoTweets(int count);
     }
 }

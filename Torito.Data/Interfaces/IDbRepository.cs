@@ -13,5 +13,7 @@ namespace Torito.Data.Interfaces
         Task<int> AddList(IEnumerable<TweetDbo> data, CancellationToken cancellationToken = default);
         Task<IList<TweetDbo>> GetAll(CancellationToken cancellationToken = default);
         Task<IList<TweetDbo>> GetLast100ToritoTweets(CancellationToken cancellationToken = default);
+        Task<IList<TweetDbo>> GetTweetsWithNullAddressText(CancellationToken cancellationToken = default);
+        Task<int> SaveAsync(CancellationToken cancellationToken = default);
     }
 }

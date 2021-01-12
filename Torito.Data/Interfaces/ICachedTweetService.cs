@@ -9,6 +9,6 @@ namespace Torito.Data.Interfaces
 {
     public interface ICachedTweetService
     {
-        Task<IList<Tweet>> GetLast100Tweets();
+        Task<IList<Tweet>> FetchAndUpdateLast100Tweets();
     }
 }

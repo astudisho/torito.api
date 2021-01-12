@@ -14,7 +14,7 @@ namespace TwitterClient.Utils
 
         public static class Twitter
         {
-            public static readonly string ToritoQuery = "from:damplin(#Toritojalisco OR #AlcoholimetroGDL OR #ToritoGDL OR #AntiToritoGDL OR #CurvaGDL)";
+            public static readonly string ToritoQuery = "from:damplin(#Toritojalisco #AlcoholimetroGDL #ToritoGDL #AntiToritoGDL #CurvaGDL)";
         }
     }
 }

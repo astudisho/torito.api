@@ -28,22 +28,22 @@ namespace Torito.Models.GMaps
         public double Lng { get; set; }
     }
 
-    public class Northeast
+    public class Northeast : Location
     {
-        [JsonPropertyName("lat")]
-        public double Lat { get; set; }
+        //[JsonPropertyName("lat")]
+        //public double Lat { get; set; }
 
-        [JsonPropertyName("lng")]
-        public double Lng { get; set; }
+        //[JsonPropertyName("lng")]
+        //public double Lng { get; set; }
     }
 
-    public class Southwest
+    public class Southwest : Location
     {
-        [JsonPropertyName("lat")]
-        public double Lat { get; set; }
+        //[JsonPropertyName("lat")]
+        //public double Lat { get; set; }
 
-        [JsonPropertyName("lng")]
-        public double Lng { get; set; }
+        //[JsonPropertyName("lng")]
+        //public double Lng { get; set; }
     }
 
     public class Viewport

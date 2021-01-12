@@ -19,6 +19,7 @@ namespace Torito.Data.Implementation
         {
             _toritoContext = context;
         }
+
         public async Task<int> AddList(IEnumerable<TweetDbo> data, CancellationToken cancellationToken = default)
         {
             await _toritoContext.Tweets.AddRangeAsync(data);
@@ -49,5 +50,20 @@ namespace Torito.Data.Implementation
 
             return await result.ToListAsync(cancellationToken);
         }
-    }
+
+        public async Task<IList<TweetDbo>> GetTweetsWithNullAddressText(CancellationToken cancellationToken = default)
+        {
+            var result = _toritoContext.Tweets
+                .Where(x => x.AddressText == null)
+                .OrderByDescending(x => x.CreatedAt);
+
+            return await result.ToListAsync(cancellationToken);                
+        }
+
+        public async Task<int> SaveAsync(CancellationToken cancellationToken = default)
+        {
+            var result = await _toritoContext.SaveChangesAsync();
+            return  result;
+        }
+    } 
 }

@@ -8,6 +8,7 @@ using Torito.Models.Twitter;
 using AutoMapper;
 using Torito.Data.Persistance.DataModels;
 using Torito.Models.Utils.Comparers;
+using System.Threading;
 
 namespace Torito.Data.Implementation
 {
@@ -22,7 +23,7 @@ namespace Torito.Data.Implementation
             _tweetDbRepository = tweetDbRepository;
             _mapper = mapper;
         }
-        public async Task<IList<Tweet>> GetLast100Tweets()
+        public async Task<IList<Tweet>> FetchAndUpdateLast100Tweets()
         {
             // Create tasks.
             var dbTweetsTask = _tweetDbRepository.GetLast100ToritoTweets();
