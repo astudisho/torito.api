@@ -45,7 +45,8 @@ namespace Torito.Data.Implementation
         Task<List<TweetDbo>> ITweetDbRepository.GetLast100ToritoTweets(CancellationToken ct = default)
         {
             var result = _toritoContext.Tweets
-                .OrderByDescending(x => x.CreatedAt)
+                //.OrderByDescending(x => x.CreatedAt)
+                .OrderByDescending(x => x.Id)
                 .Take(100)
                 .Include(x => x.Entities)
                 .ThenInclude(x => x.Annotations)

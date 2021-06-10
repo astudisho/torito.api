@@ -14,14 +14,9 @@ namespace Torito.Data.Persistance.Context
     public class ToritoContext : DbContext
     {
         private readonly string _connectionString;
-        public ToritoContext(string connectionString = default)
+        public ToritoContext(DbContextOptions<ToritoContext> dbContextOptions) : base(dbContextOptions)
         {
-            if(connectionString == default)
-            {
-                var secretManager = new UserSecretManager();
-                _connectionString = secretManager.GetDataConnectionStringApiKey();
-            }
-            _connectionString = connectionString;
+            
         }
         internal DbSet<TweetDbo> Tweets { get; set; }
         internal DbSet<EntityDbo> Entities { get; set; }
@@ -55,13 +50,7 @@ namespace Torito.Data.Persistance.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = default;
-            if (_connectionString == default)
-            {
-                var secretManager = new UserSecretManager();
-                connectionString = secretManager.GetDataConnectionStringApiKey();
-            }
-            optionsBuilder.UseSqlServer(_connectionString ?? connectionString);
+
         }
     }
 }
