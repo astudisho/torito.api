@@ -23,11 +23,11 @@ namespace Torito.Data.Implementation
             _tweetDbRepository = tweetDbRepository;
             _mapper = mapper;
         }
-        public async Task<IList<Tweet>> FetchAndUpdateLast100Tweets()
+        public async Task<IList<Tweet>> FetchAndUpdateLast100Tweets(CancellationToken ct = default)
         {
             // Create tasks.
-            var dbTweetsTask = _tweetDbRepository.GetLast100ToritoTweets();
-            var clientTweetsTask = _tweetClientRepository.GetLast100ToritoTweets();
+            var dbTweetsTask = _tweetDbRepository.GetLast100ToritoTweets(ct);
+            var clientTweetsTask = _tweetClientRepository.GetLast100ToritoTweets(ct);
 
             // Results.
             var dbtweetsResult = await dbTweetsTask;

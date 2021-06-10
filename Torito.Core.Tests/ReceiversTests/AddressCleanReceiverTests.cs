@@ -22,7 +22,7 @@ namespace Torito.Core.Tests.HandlersTests
         {
             Assert.All(ConstantsTestData.AddressTweets, x =>
             {
-                TweetDbo tweet = new() { Text = x.Item1 };
+                TweetDbo tweet = new() { AddressText = x.Item1 };
 
                 _fixture.AddressCleanReceiver.Handle(tweet);
 

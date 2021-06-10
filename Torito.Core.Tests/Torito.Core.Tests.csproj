@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Torito.Core\Torito.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="HandlersTests\" />
+  </ItemGroup>
+
 </Project>

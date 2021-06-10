@@ -32,6 +32,9 @@ namespace Torito.Core.Tests.Fixtures
         internal IMapper Mapper { get; private set; }
         internal IReceiver<TweetDbo> AddressCleanReceiver { get; private set; }
         internal IReceiver<TweetDbo> ParenthesisCleanReceiver { get; private set; }
+        internal IReceiver<TweetDbo> RetweetCleanReceiver { get; private set; }
+        internal IReceiver<TweetDbo> HashtagsCleanReceiver { get; private set; }
+        internal IReceiver<TweetDbo> AlcoholimetroCleanReceiver { get; private set; }
         internal IHandler<TweetDbo> TweetDboCleanerHandler { get; private set; }
         //internal readonly Task<GeoCodeResponse> geoCodeResponseTask;
         public ToritoCoreTestsFixture()
@@ -48,21 +51,32 @@ namespace Torito.Core.Tests.Fixtures
             // Cleaners.
             AddressCleanReceiver = new AddressCleanReceiver();
             ParenthesisCleanReceiver = new ParenthesisCleanReceiver();
+            RetweetCleanReceiver = new RetweetCleanReceiver();
+            HashtagsCleanReceiver = new HashtagsCleanReceiver();
 
             // Cleaner Handler.
-            TweetDboCleanerHandler = new TweetDboAddressCleanHandler(AddressCleanReceiver, ParenthesisCleanReceiver);
+            TweetDboCleanerHandler = new TweetDboAddressCleanHandler(
+                new IReceiver<TweetDbo>[]
+                { 
+                    AddressCleanReceiver,
+                    AlcoholimetroCleanReceiver,
+                    RetweetCleanReceiver, 
+                    ParenthesisCleanReceiver, 
+                    HashtagsCleanReceiver, 
+                });
             // Clean Service.
             AddressCleanService = new AddressCleanService(TweetDboCleanerHandler);
 
             // Db.
-            ToritoContext = new ToritoContext(SecretManager.GetDataConnectionStringApiKey("integration"));
+            ToritoContext = new ToritoContext(SecretManager.GetDataConnectionStringApiKey("dev"));
             ToritoContext.Database.EnsureCreated();
-            TweetDbRepository = new TweetDbRepository(ToritoContext);
+            TweetDbRepository = new TweetDbRepository(ToritoContext, mapper);
             LocationService = new TweetLocationService(TweetDbRepository,AddressCleanService, GmapsGeocodeClient, Mapper);
+
         }
         public void Dispose()
         {
-            ToritoContext.Database.EnsureDeleted();
+            // ToritoContext.Database.EnsureDeleted();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Torito.Core.Tests
         [Fact]
         async Task Should_Assign_Address_Text_To_Tweets()
         {
-            var tweets = GetTweetsWithAddressText();
+            var tweets = GetTweetsWithoutAddressText();
 
             Assert.All(await tweets, x => 
             {
@@ -34,9 +34,12 @@ namespace Torito.Core.Tests
         {
             // var cancellationToken = new CancellationTokenSource(10000).Token;
             var cancellationToken = default(CancellationToken);
-            var tweets = await GetTweetsWithAddressText(cancellationToken);
+            var tweets = await GetTweetsWithoutAddressText(cancellationToken);
 
-            var resultTaskList = tweets.Select(x => _fixture.LocationService.AssignAddressObjectToTweet(x, cancellationToken)).ToList();
+            var tweetsWithoutGeoLocation = await _fixture.TweetDbRepository.GetTweetsWithNullGeoLocation(cancellationToken);
+
+            var resultTaskList = tweetsWithoutGeoLocation.Select(x => _fixture.LocationService.AssignAddressObjectToTweet(x, cancellationToken))
+                .ToList();
 
             await Task.WhenAll(resultTaskList);
 
@@ -48,7 +51,8 @@ namespace Torito.Core.Tests
                 Assert.NotNull(x.Geocode.Results);
                 Assert.NotEmpty(x.Geocode.Results);
             });
-            //var aux = await _fixture.LocationService.AssignAddressObjectToTweet(tweets.First());
+
+            var aux = await _fixture.LocationService.AssignAddressObjectToTweet(tweets.First());
         }
 
         [Fact]
@@ -57,7 +61,7 @@ namespace Torito.Core.Tests
 
         }
 
-        private async Task<IList<TweetDbo>> GetTweetsWithAddressText(CancellationToken cancellationToken = default)
+        private async Task<IList<TweetDbo>> GetTweetsWithoutAddressText(CancellationToken cancellationToken = default)
         {
             var tweets = await _fixture.LocationService.AssignAddressTextToTweet(cancellationToken);
 

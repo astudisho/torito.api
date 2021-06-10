@@ -10,11 +10,14 @@ namespace TwitterClient.Utils
     {
         public static class GMaps
         {
-        }        
+        }
 
         public static class Twitter
         {
-            public static readonly string ToritoQuery = "from:damplin(#Toritojalisco #AlcoholimetroGDL #ToritoGDL #AntiToritoGDL #CurvaGDL)";
+            private static Func<string, string, string> AggregateOr = (x, y) => $"{x} OR {y}";
+            private static readonly string[] ToritoIcons = {"🍷", "🍸", "🍹", "🍺", "🍻" ,"🍾", "🚔", "👮","🚓"};
+            private static readonly string[] ToritoHashTags = { "#Toritojalisco", "#AlcoholimetroGDL", "#ToritoGDL", "#AntiToritoGDL", "#CurvaGDL" };
+            public static readonly string ToritoQuery = $"from:damplin ({ToritoIcons.Aggregate((x,y) => x + y)}) OR ({ToritoHashTags.Aggregate(AggregateOr)})";
         }
     }
 }

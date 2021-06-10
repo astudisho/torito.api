@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Torito.Core.Tests.Fixtures.Json
 {
-    internal static class ConstantsTestData
+    internal static partial class ConstantsTestData
     {
         public static readonly (string, string)[] ParenthesisTweets =
         {
