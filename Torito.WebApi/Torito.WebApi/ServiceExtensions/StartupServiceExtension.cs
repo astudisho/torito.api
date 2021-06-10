@@ -45,7 +45,7 @@ namespace Torito.WebApi.ServiceExtensions
             // DbContext.            
             serviceCollection.AddDbContext<ToritoContext>(options => 
             {
-                options.UseSqlServer(userSecretManager.GetDataConnectionStringApiKey());                
+                options.UseSqlServer(userSecretManager.GetDataConnectionStringApiKey());
             });
 
             // Address clean.

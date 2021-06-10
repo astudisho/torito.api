@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Gmaps.Client.Implementations;
 using Gmaps.Client.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,8 +68,13 @@ namespace Torito.Core.Tests.Fixtures
             // Clean Service.
             AddressCleanService = new AddressCleanService(TweetDboCleanerHandler);
 
+            // Inmemory DB.
+            var contextOptions = new DbContextOptionsBuilder<ToritoContext>()
+                .UseInMemoryDatabase("ToritoDevInMemory")
+                .Options;
+
             // Db.
-            ToritoContext = new ToritoContext(SecretManager.GetDataConnectionStringApiKey("dev"));
+            ToritoContext = new ToritoContext(contextOptions);
             ToritoContext.Database.EnsureCreated();
             TweetDbRepository = new TweetDbRepository(ToritoContext, mapper);
             LocationService = new TweetLocationService(TweetDbRepository,AddressCleanService, GmapsGeocodeClient, Mapper);
