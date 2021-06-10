@@ -63,6 +63,181 @@ namespace Torito.Data.Migrations
                     b.ToTable("Entities");
                 });
 
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.AddressComponentDbo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("GeocodeDboId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LongName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ResultDboId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShortName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Types")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GeocodeDboId");
+
+                    b.HasIndex("ResultDboId");
+
+                    b.ToTable("AddressComponentDbo");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.GeocodeDbo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<decimal?>("TweetForeignKey")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TweetForeignKey")
+                        .IsUnique()
+                        .HasFilter("[TweetForeignKey] IS NOT NULL");
+
+                    b.ToTable("GeocodeDbo");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.GeometryDbo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LocationType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ViewportId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("ViewportId");
+
+                    b.ToTable("GeometryDbo");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.LocationDbo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Lat")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Lng")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LocationDbo");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("LocationDbo");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.PlusCodeDbo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CompoundCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GlobalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PlusCodeDbo");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.ResultDbo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("FormattedAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GeocodeDboId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GeometryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PlaceId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PlusCodeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Types")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GeocodeDboId");
+
+                    b.HasIndex("GeometryId");
+
+                    b.HasIndex("PlusCodeId");
+
+                    b.ToTable("ResultDbo");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.ViewportDbo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("NortheastId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SouthwestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NortheastId");
+
+                    b.HasIndex("SouthwestId");
+
+                    b.ToTable("ViewportDbo");
+                });
+
             modelBuilder.Entity("Torito.Data.Persistance.DataModels.HashtagDbo", b =>
                 {
                     b.Property<int>("Id")
@@ -96,6 +271,9 @@ namespace Torito.Data.Migrations
                         .HasColumnType("decimal(20,0)")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
 
+                    b.Property<string>("AddressText")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(max)");
 
@@ -108,12 +286,12 @@ namespace Torito.Data.Migrations
                     b.Property<DateTime>("InsertedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 12, 8, 4, 11, 21, 561, DateTimeKind.Local).AddTicks(47));
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<DateTime>("LastUpdated")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 12, 8, 4, 11, 21, 553, DateTimeKind.Local).AddTicks(1157));
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<string>("Source")
                         .HasColumnType("nvarchar(max)");
@@ -128,11 +306,96 @@ namespace Torito.Data.Migrations
                     b.ToTable("Tweets");
                 });
 
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.NortheastDbo", b =>
+                {
+                    b.HasBaseType("Torito.Data.Persistance.DataModels.Gmaps.LocationDbo");
+
+                    b.HasDiscriminator().HasValue("NortheastDbo");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.SouthwestDbo", b =>
+                {
+                    b.HasBaseType("Torito.Data.Persistance.DataModels.Gmaps.LocationDbo");
+
+                    b.HasDiscriminator().HasValue("SouthwestDbo");
+                });
+
             modelBuilder.Entity("Torito.Data.Persistance.DataModels.AnnotationDbo", b =>
                 {
                     b.HasOne("Torito.Data.Persistance.DataModels.EntityDbo", null)
                         .WithMany("Annotations")
                         .HasForeignKey("EntityDboId");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.AddressComponentDbo", b =>
+                {
+                    b.HasOne("Torito.Data.Persistance.DataModels.Gmaps.GeocodeDbo", "GeocodeDbo")
+                        .WithMany()
+                        .HasForeignKey("GeocodeDboId");
+
+                    b.HasOne("Torito.Data.Persistance.DataModels.Gmaps.ResultDbo", null)
+                        .WithMany("AddressComponents")
+                        .HasForeignKey("ResultDboId");
+
+                    b.Navigation("GeocodeDbo");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.GeocodeDbo", b =>
+                {
+                    b.HasOne("Torito.Data.Persistance.DataModels.TweetDbo", "Tweet")
+                        .WithOne("Geocode")
+                        .HasForeignKey("Torito.Data.Persistance.DataModels.Gmaps.GeocodeDbo", "TweetForeignKey");
+
+                    b.Navigation("Tweet");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.GeometryDbo", b =>
+                {
+                    b.HasOne("Torito.Data.Persistance.DataModels.Gmaps.LocationDbo", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
+
+                    b.HasOne("Torito.Data.Persistance.DataModels.Gmaps.ViewportDbo", "Viewport")
+                        .WithMany()
+                        .HasForeignKey("ViewportId");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Viewport");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.ResultDbo", b =>
+                {
+                    b.HasOne("Torito.Data.Persistance.DataModels.Gmaps.GeocodeDbo", null)
+                        .WithMany("Results")
+                        .HasForeignKey("GeocodeDboId");
+
+                    b.HasOne("Torito.Data.Persistance.DataModels.Gmaps.GeometryDbo", "Geometry")
+                        .WithMany()
+                        .HasForeignKey("GeometryId");
+
+                    b.HasOne("Torito.Data.Persistance.DataModels.Gmaps.PlusCodeDbo", "PlusCode")
+                        .WithMany()
+                        .HasForeignKey("PlusCodeId");
+
+                    b.Navigation("Geometry");
+
+                    b.Navigation("PlusCode");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.ViewportDbo", b =>
+                {
+                    b.HasOne("Torito.Data.Persistance.DataModels.Gmaps.NortheastDbo", "Northeast")
+                        .WithMany()
+                        .HasForeignKey("NortheastId");
+
+                    b.HasOne("Torito.Data.Persistance.DataModels.Gmaps.SouthwestDbo", "Southwest")
+                        .WithMany()
+                        .HasForeignKey("SouthwestId");
+
+                    b.Navigation("Northeast");
+
+                    b.Navigation("Southwest");
                 });
 
             modelBuilder.Entity("Torito.Data.Persistance.DataModels.HashtagDbo", b =>
@@ -156,6 +419,21 @@ namespace Torito.Data.Migrations
                     b.Navigation("Annotations");
 
                     b.Navigation("Hashtags");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.GeocodeDbo", b =>
+                {
+                    b.Navigation("Results");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.Gmaps.ResultDbo", b =>
+                {
+                    b.Navigation("AddressComponents");
+                });
+
+            modelBuilder.Entity("Torito.Data.Persistance.DataModels.TweetDbo", b =>
+                {
+                    b.Navigation("Geocode");
                 });
 #pragma warning restore 612, 618
         }

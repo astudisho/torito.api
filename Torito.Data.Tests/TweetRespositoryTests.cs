@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Xunit;
 
 
@@ -14,7 +15,6 @@ namespace Torito.Data.Tests
         [Fact]
         public void Should_Return_At_Least_1_tweet()
         {
-
         }
     }
 }

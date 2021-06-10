@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Torito.Data.Persistance.DataModels.Gmaps;
 
 namespace Torito.Data.Persistance.DataModels
 {
@@ -14,6 +15,7 @@ namespace Torito.Data.Persistance.DataModels
         public ulong Id { get; set; }
         public string AuthorId { get; set; }
         public string Text { get; set; }
+        public string AddressText { get; set; }
         public EntityDbo Entities { get; set; }
         public string Source { get; set; }
         public DateTime? CreatedAt { get; set; }
@@ -21,6 +23,7 @@ namespace Torito.Data.Persistance.DataModels
         public DateTime LastUpdated { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime InsertedAt { get; set; }
+        public virtual GeocodeDbo Geocode { get; set; }
 
         //public string Lang { get; set; }
 

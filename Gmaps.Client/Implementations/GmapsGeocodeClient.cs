@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Torito.Models.GMaps;
 
@@ -17,12 +18,12 @@ namespace Gmaps.Client.Implementations
 
         }
 
-        public async Task<GeoCodeResponse> GetGeocodeForAddress(string address)
+        public async Task<GeoCodeResponse> GetGeocodeForAddress(string address, CancellationToken cancellationToken = default)
         {
             _restRequest = new RestRequest($"/geocode/{ResponseType}");
             _restRequest.AddQueryParameter("address", address, true);
 
-            var response = await _client.GetAsync<GeoCodeResponse>(_restRequest);
+            var response = await _client.GetAsync<GeoCodeResponse>(_restRequest, cancellationToken);
 
             return response;
         }

@@ -11,7 +11,10 @@ namespace Torito.Data.Interfaces
     public interface ITweetDbRepository
     {
         Task<int> AddList(IEnumerable<TweetDbo> data, CancellationToken cancellationToken = default);
-        Task<IList<TweetDbo>> GetAll(CancellationToken cancellationToken = default);
-        //Task<IList<TweetDbo>> GetLast100ToritoTweets(CancellationToken cancellationToken = default);
+        Task<List<TweetDbo>> GetAll(CancellationToken cancellationToken = default);
+        Task<List<TweetDbo>> GetLast100ToritoTweets(CancellationToken cancellationToken = default);
+        Task<List<TweetDbo>> GetTweetsWithNullAddressText(CancellationToken cancellationToken = default);
+        Task<List<TweetDbo>> GetTweetsWithNullGeoLocation(CancellationToken cancellationToken = default);
+        Task<int> SaveAsync(CancellationToken cancellationToken = default);
     }
 }

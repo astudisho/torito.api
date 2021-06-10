@@ -60,13 +60,15 @@ namespace TwitterClient.Tests
             };
             var response = await _recentSearchService.GetRecentSearchAsync(query, recentSearchRequestParameters);
 
-            var firstTweet = response.Data.First();
-
-            Assert.NotEqual(default, firstTweet.AuthorId);
-            Assert.NotEmpty(firstTweet.Entities?.Annotations);
-            Assert.NotEqual(default, firstTweet.Id);
-            Assert.False(string.IsNullOrEmpty(firstTweet.Text));
+            Assert.All(response.Data, x => 
+            {
+                Assert.NotEqual(default, x.AuthorId);
+                Assert.NotEmpty(x.Entities?.Annotations);
+                Assert.NotEqual(default, x.Id);
+                Assert.False(string.IsNullOrEmpty(x.Text));
+            });
             Assert.NotEqual(default(int), response.Meta.Count);
+
         }
     }
 }

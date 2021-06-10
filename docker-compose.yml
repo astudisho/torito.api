@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  torito.webapi:
+    image: ${DOCKER_REGISTRY-}toritowebapi
+    build:
+      context: .
+      dockerfile: Torito.WebApi/Torito.WebApi/Dockerfile
+    networks:
+      - backend
+      
+  torito.mysql:
+    image: mysql
+    environment:
+       - MYSQL_ROOT_PASSWORD=Fbi240491
+    volumes:
+      - torito:/var/lib/mysql
+    ports:
+      - 5000:3306
+    networks: 
+      - backend
+networks:
+  backend: {}
+
+volumes:
+  torito: {}

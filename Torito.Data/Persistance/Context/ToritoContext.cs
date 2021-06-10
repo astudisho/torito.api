@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Torito.Data.Persistance.DataModels;
+using Torito.Data.Persistance.DataModels.Gmaps;
 using Torito.Models.Utils.Tools;
 
 namespace Torito.Data.Persistance.Context
@@ -31,12 +33,24 @@ namespace Torito.Data.Persistance.Context
             modelBuilder.Entity<TweetDbo>()
                 .Property(t => t.LastUpdated)
                 .ValueGeneratedOnAddOrUpdate()
-                .HasDefaultValue(DateTime.Now);
+                .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<TweetDbo>()
                 .Property(t => t.InsertedAt)
                 .ValueGeneratedOnAdd()
-                .HasDefaultValue(DateTime.Now);
+                .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<AddressComponentDbo>()
+                .Property(x => x.Types)
+                .HasConversion(
+                    x => JsonSerializer.Serialize(x, default),
+                    x => JsonSerializer.Deserialize<List<string>>(x, default));
+
+            modelBuilder.Entity<ResultDbo>()
+                .Property(x => x.Types)
+                .HasConversion(
+                    x => JsonSerializer.Serialize(x, default),
+                    x => JsonSerializer.Deserialize<List<string>>(x, default));
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

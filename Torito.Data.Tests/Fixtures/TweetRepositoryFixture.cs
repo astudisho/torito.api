@@ -45,12 +45,12 @@ namespace Torito.Data.Tests.Fixtures
             // Context and repositories.
             toritoContext = new ToritoContext(integrationConnectionString);
             var isCreated = toritoContext.Database.EnsureCreated();
-            tweetDbRepository = new TweetDbRepository(toritoContext);
+            tweetDbRepository = new TweetDbRepository(toritoContext, mapper);
             tweetClientRepository = new TweetClientRepository(recentSearchService);
             cachedtweetService = new CachedTweetService(tweetClientRepository, tweetDbRepository, this.mapper);
 
             // Cached task.
-            cachedLast100TweetsTask = cachedtweetService.GetLast100Tweets();
+            cachedLast100TweetsTask = cachedtweetService.FetchAndUpdateLast100Tweets();
         }
         public void Dispose()
         {
