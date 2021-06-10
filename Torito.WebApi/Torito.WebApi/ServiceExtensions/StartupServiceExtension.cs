@@ -39,10 +39,14 @@ namespace Torito.WebApi.ServiceExtensions
             serviceCollection.AddScoped<ITweetDbRepository, TweetDbRepository>();
             serviceCollection.AddScoped<IGmapsGeocodeClient, GmapsGeocodeClient>(x => new GmapsGeocodeClient(userSecretManager.GetGmapsGeocodeApiKey()));
             serviceCollection.AddScoped<IRecentSearchService,RecentSearchService>(x => new RecentSearchService(userSecretManager.GetTwitterApiKey()));
-            serviceCollection.AddDbContext<ToritoContext>(options => options.UseSqlServer(userSecretManager.GetDataConnectionStringApiKey()));
             serviceCollection.AddScoped<ITweetLocationService, TweetLocationService>();
             serviceCollection.AddScoped<ISyncService, SyncService>();
 
+            // DbContext.            
+            serviceCollection.AddDbContext<ToritoContext>(options => 
+            {
+                options.UseSqlServer(userSecretManager.GetDataConnectionStringApiKey());                
+            });
 
             // Address clean.
             // Receivers.

@@ -62,7 +62,7 @@ namespace Torito.WebApi
                 endpoints.MapControllers();
             });
 
-            toritoContext.Database.Migrate();            
+            toritoContext.Database.Migrate();
         }
     }
 }
