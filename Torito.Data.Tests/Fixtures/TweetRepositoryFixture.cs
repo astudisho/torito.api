@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,14 @@ namespace Torito.Data.Tests.Fixtures
             recentSearchService = new RecentSearchService(twitterApiKey);
 
             // Context and repositories.
-            toritoContext = new ToritoContext(integrationConnectionString);
+            var dbContextOptions = new Microsoft.EntityFrameworkCore.DbContextOptions<ToritoContext>();
+
+            var contextOptions = new DbContextOptionsBuilder<ToritoContext>()
+            .UseInMemoryDatabase(databaseName: "ToritoInMemory")
+            .Options;
+
+            toritoContext = new ToritoContext(contextOptions);
+
             var isCreated = toritoContext.Database.EnsureCreated();
             tweetDbRepository = new TweetDbRepository(toritoContext, mapper);
             tweetClientRepository = new TweetClientRepository(recentSearchService);
