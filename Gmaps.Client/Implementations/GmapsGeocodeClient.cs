@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Torito.Models.GMaps;
+using Gmaps.Client.Utils;
 
 namespace Gmaps.Client.Implementations
 {
@@ -24,6 +25,15 @@ namespace Gmaps.Client.Implementations
             _restRequest.AddQueryParameter("address", address, true);
 
             var response = await _client.GetAsync<GeoCodeResponse>(_restRequest, cancellationToken);
+
+            ///TODO
+            ///Handle response status.
+            ///Create service to handle exceptions and other errors.
+            if (response.Status != Constants.GmapsClient.OkStatus)
+            {
+                if(response.Status != Constants.GmapsClient.ZeroResults)
+                    throw new ApplicationException($"GmapsGeocodeClient.GetGeocodeForAddress returns response.status: {response.Status}");
+            } 
 
             return response;
         }

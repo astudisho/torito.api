@@ -36,6 +36,8 @@ namespace Torito.WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Torito.WebApi", Version = "v1" });
             });
+
+            services.AddCors();
             
             services.InjectServices();            
         }
@@ -61,6 +63,8 @@ namespace Torito.WebApi
             {
                 endpoints.MapControllers();
             });
+
+            app.UseCors(x => x.AllowAnyOrigin());
 
             toritoContext.Database.Migrate();
         }
