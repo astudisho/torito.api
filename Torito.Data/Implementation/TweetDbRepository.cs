@@ -17,6 +17,7 @@ namespace Torito.Data.Implementation
     {
         private readonly ToritoContext _toritoContext;
         private readonly IMapper _mapper;
+        
         public TweetDbRepository(ToritoContext context, IMapper mapper)
         {
             _toritoContext = context;
@@ -74,6 +75,20 @@ namespace Torito.Data.Implementation
                 //.OrderByDescending(x => x.CreatedAt);
 
             return result.ToListAsync();
+        }
+
+        public Task<List<TweetDbo>> GetRecent100TweetsWithGeoLocation(CancellationToken cancellation = default)
+        {
+            var results = _toritoContext.Tweets
+                .Where(x => x.Geocode.Results.Count > 0)
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(100)
+                .Include(x => x.Geocode.Results)
+                .ThenInclude(x => x.Geometry)
+                .ThenInclude(x => x.Location)
+                .ToListAsync();
+
+            return results;    
         }
 
         public Task<int> SaveAsync(CancellationToken cancellationToken = default)

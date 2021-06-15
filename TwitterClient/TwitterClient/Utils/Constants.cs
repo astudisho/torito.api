@@ -16,8 +16,12 @@ namespace TwitterClient.Utils
         {
             private static Func<string, string, string> AggregateOr = (x, y) => $"{x} OR {y}";
             private static readonly string[] ToritoIcons = {"🍷", "🍸", "🍹", "🍺", "🍻" ,"🍾", "🚔", "👮","🚓"};
+            private static readonly string[] ToritoIcons2 = { "🚔", "👮", "🚓", "🐂" };
             private static readonly string[] ToritoHashTags = { "#Toritojalisco", "#AlcoholimetroGDL", "#ToritoGDL", "#AntiToritoGDL", "#CurvaGDL" };
-            public static readonly string ToritoQuery = $"from:damplin ({ToritoIcons.Aggregate((x,y) => x + y)}) OR ({ToritoHashTags.Aggregate(AggregateOr)})";
+            private static readonly string FromUser = "from:damplin";
+            public static readonly string ToritoQuery = $"{FromUser} ({ToritoIcons.Aggregate((x,y) => $"{x} {y}")}) " +
+                $"OR {FromUser} ({ToritoHashTags.Aggregate(AggregateOr)}) " +
+                $"OR {FromUser} ({ToritoIcons2.Aggregate((x,y) => $"{x} {y}")})";
         }
     }
 }
