@@ -62,6 +62,7 @@ namespace Torito.WebApi.ServiceExtensions
             serviceCollection.AddScoped<IHandler<TweetDbo>, TweetDboAddressCleanHandler>();
             serviceCollection.AddAutoMapper(cfg => cfg.AddProfile(typeof(DataMapperProfile)));
             serviceCollection.AddScoped<ICachedTweetService, CachedTweetService>();
+            serviceCollection.AddScoped<IRecentTweetService, RecentTweetService>();
 
             //var sp = serviceCollection.BuildServiceProvider();
             //var result = sp.GetService<IReceiver<TweetDbo>>();

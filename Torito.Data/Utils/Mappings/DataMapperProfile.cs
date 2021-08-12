@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Torito.Data.Persistance.DataModels;
 using Torito.Data.Persistance.DataModels.Gmaps;
+using Torito.Models.Dtos;
 using Torito.Models.GMaps;
 using Torito.Models.Twitter;
 
@@ -32,6 +33,18 @@ namespace Torito.Data.Utils.Mappings
             CreateMap<Southwest, SouthwestDbo>().ReverseMap();
             CreateMap<Viewport, ViewportDbo>().ReverseMap();
             CreateMap<PlusCode, PlusCodeDbo>().ReverseMap();
+
+            // Torito map
+            CreateMap<LocationDto, LocationDbo>().ReverseMap();
+            CreateMap<TweetDbo, ToritoDto>()
+                .ForMember(dest => dest.TweetText, opts => opts.MapFrom(orig => orig.Text))                
+                .AfterMap((src, dst, ctx) => 
+                {
+                    var srcLocation = src.Geocode?.Results?.FirstOrDefault()?.Geometry?.Location;
+                    var dstLocation = ctx.Mapper.Map<LocationDto>(srcLocation);
+
+                    dst.Location = dstLocation;
+                });
         }   
     }
 }

@@ -17,6 +17,7 @@ namespace Torito.Data.Implementation
     {
         private readonly ToritoContext _toritoContext;
         private readonly IMapper _mapper;
+        
         public TweetDbRepository(ToritoContext context, IMapper mapper)
         {
             _toritoContext = context;
@@ -45,12 +46,13 @@ namespace Torito.Data.Implementation
         Task<List<TweetDbo>> ITweetDbRepository.GetLast100ToritoTweets(CancellationToken ct = default)
         {
             var result = _toritoContext.Tweets
-                //.OrderByDescending(x => x.CreatedAt)
-                .OrderByDescending(x => x.Id)
+                .OrderByDescending(x => x.CreatedAt)
+                //.OrderByDescending(x => x.Id)
                 .Take(100)
                 .Include(x => x.Entities)
                 .ThenInclude(x => x.Annotations)
                 .Include(x => x.Entities.Hashtags);
+                //.AsSplitQuery();
 
             return result.ToListAsync(ct);
         }
@@ -74,6 +76,38 @@ namespace Torito.Data.Implementation
                 //.OrderByDescending(x => x.CreatedAt);
 
             return result.ToListAsync();
+        }
+
+        public Task<List<TweetDbo>> GetRecent100TweetsWithGeoLocation(CancellationToken cancellation = default)
+        {
+            var results = _toritoContext.Tweets
+                .Where(x => x.Geocode.Results.Count > 0)
+                .Include(x => x.Geocode.Results)
+                .ThenInclude(x => x.Geometry)
+                .ThenInclude(x => x.Location)
+                .OrderByDescending(x => x.CreatedAt)
+                .Take(100)
+                //.OrderByDescending(x => x.Id)
+                //.AsSplitQuery()
+                .ToListAsync();
+
+            return results;    
+        }
+
+        public Task<List<TweetDbo>> GetLast24HrsWithGeoLocation(CancellationToken cancellation = default)
+        {
+            var results = _toritoContext.Tweets
+                .Where(x => x.Geocode.Results.Count > 0)
+                .Where(x => x.CreatedAt > DateTime.Now.AddHours(-24))
+                .Include(x => x.Geocode.Results)
+                .ThenInclude(x => x.Geometry)
+                .ThenInclude(x => x.Location)
+                .OrderByDescending(x => x.CreatedAt)
+                //.OrderByDescending(x => x.Id)
+                //.AsSplitQuery()
+                .ToListAsync();
+
+            return results;
         }
 
         public Task<int> SaveAsync(CancellationToken cancellationToken = default)

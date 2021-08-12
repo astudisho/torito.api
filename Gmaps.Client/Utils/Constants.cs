@@ -11,6 +11,7 @@ namespace Gmaps.Client.Utils
         public static class GmapsClient
         {
             public static readonly string OkStatus = "OK";
+            public static readonly string ZeroResults = "ZERO_RESULTS";
         }
     }
 }
