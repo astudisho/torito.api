@@ -11,6 +11,6 @@ namespace Torito.Core.Services.Interfaces
     public interface IRecentTweetService
     {
         Task<IList<ToritoDto>> GetRecentTorito(CancellationToken cancellationToken);
-        
+        Task<IList<ToritoDto>> GetLastDayTorito(CancellationToken ct = default);
     }
 }

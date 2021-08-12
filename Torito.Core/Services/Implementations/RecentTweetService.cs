@@ -37,5 +37,18 @@ namespace Torito.Core.Services.Implementations
 
             return result;
         }
+
+        public async Task<IList<ToritoDto>> GetLastDayTorito(CancellationToken ct = default)
+        {
+            var tweetTasks = _tweetRepository.GetLast24HrsWithGeoLocation(ct);
+
+            var dbTweeets = await tweetTasks;
+
+            var orderedTweets = dbTweeets.OrderByDescending(x => x.CreatedAt).ToList();
+
+            var result = _mapper.Map<IList<ToritoDto>>(orderedTweets);
+
+            return result;
+        }
     }
 }

@@ -29,7 +29,8 @@ namespace Torito.WebApi
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {   
+            services.AddCors();
 
             services.AddControllers(); 
             services.AddSwaggerGen(c =>
@@ -37,7 +38,6 @@ namespace Torito.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Torito.WebApi", Version = "v1" });
             });
 
-            services.AddCors();
             
             services.InjectServices();            
         }
@@ -51,7 +51,8 @@ namespace Torito.WebApi
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Torito.WebApi v1"));
-            }
+            }            
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseHttpsRedirection();
 
@@ -62,9 +63,8 @@ namespace Torito.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
+            });            
 
-            app.UseCors(x => x.AllowAnyOrigin());
 
             toritoContext.Database.Migrate();
         }

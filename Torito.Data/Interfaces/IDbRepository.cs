@@ -16,6 +16,7 @@ namespace Torito.Data.Interfaces
         Task<List<TweetDbo>> GetTweetsWithNullAddressText(CancellationToken cancellationToken = default);
         Task<List<TweetDbo>> GetTweetsWithNullGeoLocation(CancellationToken cancellationToken = default);
         Task<List<TweetDbo>> GetRecent100TweetsWithGeoLocation(CancellationToken cancellation = default);
+        Task<List<TweetDbo>> GetLast24HrsWithGeoLocation(CancellationToken cancellation = default);
         Task<int> SaveAsync(CancellationToken cancellationToken = default);
     }
 }

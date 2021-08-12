@@ -29,5 +29,13 @@ namespace Torito.WebApi.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLastDay(CancellationToken ct)
+        {
+            var result = await _recentTweetService.GetLastDayTorito(ct);
+
+            return Ok(result);
+        }
     }
 }
